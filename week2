@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2주차: 프롬프트 엔지니어링 심화 학습</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Teal Accents (Matches Week 1) -->
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-teal-100 selection:text-teal-800">
+
+    <!-- Navigation (Week 1 Style) -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-layer-group text-teal-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-stone-700">GenAI Advanced Hub</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#theory" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">TOPFEC 이론</a>
+                    <a href="#builder" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">프롬프트 빌더</a>
+                    <a href="#practice" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">자동화 실습</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Week 1 Style) -->
+    <header class="bg-white pb-10 pt-10 border-b border-stone-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-4 inline-block">Week 2</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-stone-800 mb-6">
+                프롬프트 엔지니어링 심화: <br><span class="text-teal-600">실무형 프롬프트 설계</span>
+            </h1>
+            <p class="text-lg text-stone-500 mb-8 max-w-2xl mx-auto">
+                단순한 질문을 넘어, AI를 완벽하게 통제하는 <strong>TOPFEC 구조</strong>와<br>
+                <strong>섹션 분리 기법</strong>을 통해 업무 자동화를 실현해봅니다.
+            </p>
+            <a href="#builder" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none transition-all transform hover:-translate-y-1">
+                <i class="fas fa-magic mr-2"></i> 프롬프트 빌더 바로가기
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- Section 1: TOPFEC Theory -->
+        <section id="theory" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 1</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">프롬프트의 6원소: TOPFEC</h2>
+                <p class="text-stone-500 mt-2">고품질 답변을 얻기 위해 반드시 포함해야 할 6가지 핵심 요소입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Task -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-teal-50 p-2 rounded-lg text-teal-600 mr-3 group-hover:bg-teal-100 transition-colors"><i class="fas fa-tasks"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Task (임무)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">AI가 수행해야 할 구체적인 작업입니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) 회의록을 요약하라, 이메일 초안을 작성하라</div>
+                </div>
+
+                <!-- Output -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-50 p-2 rounded-lg text-pink-600 mr-3 group-hover:bg-pink-100 transition-colors"><i class="fas fa-print"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Output (결과물)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">원하는 결과물의 형태를 정의합니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) 표 형식, 3줄 요약, JSON 코드</div>
+                </div>
+
+                <!-- Persona -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-50 p-2 rounded-lg text-orange-600 mr-3 group-hover:bg-orange-100 transition-colors"><i class="fas fa-user-tie"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Persona (페르소나)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">AI에게 부여할 역할과 전문성입니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) 10년차 마케팅 전문가, 깐깐한 편집자</div>
+                </div>
+
+                <!-- Format -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-50 p-2 rounded-lg text-green-600 mr-3 group-hover:bg-green-100 transition-colors"><i class="fas fa-file-alt"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Format (형식)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">글의 구조, 길이, 스타일 제약조건입니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) 마크다운 헤더 사용, 두괄식 작성</div>
+                </div>
+
+                <!-- Example -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-50 p-2 rounded-lg text-blue-600 mr-3 group-hover:bg-blue-100 transition-colors"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Example (예시)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">Few-shot Learning을 위한 모범 답안입니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) [입력: 사과] -> [출력: Apple]</div>
+                </div>
+
+                <!-- Context -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow group">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-50 p-2 rounded-lg text-purple-600 mr-3 group-hover:bg-purple-100 transition-colors"><i class="fas fa-info-circle"></i></div>
+                        <h3 class="font-bold text-lg text-stone-700">Context (맥락)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600">배경 정보와 상황 설명입니다.</p>
+                    <div class="mt-3 bg-stone-50 p-2 rounded text-xs text-stone-500 border border-stone-100">Ex) 이 보고서는 CEO 보고용이다.</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 2: TOPFEC Prompt Builder (Re-styled) -->
+        <section id="builder" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 2</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">TOPFEC 프롬프트 빌더</h2>
+                <p class="text-stone-500 mt-2">빈칸을 채우면 전문가 수준의 '섹션 분리형 프롬프트'가 완성됩니다.</p>
+            </div>
+
+            <!-- Changed from Dark Theme to Light/Stone Theme -->
+            <div class="bg-white rounded-2xl border border-stone-200 shadow-lg overflow-hidden flex flex-col lg:flex-row">
+                
+                <!-- Input Area -->
+                <div class="w-full lg:w-1/2 p-8 border-b lg:border-b-0 lg:border-r border-stone-200 bg-stone-50">
+                    <h3 class="text-lg font-bold text-stone-700 mb-6 flex items-center">
+                        <span class="bg-teal-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
+                        설정 입력
+                    </h3>
+                    
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-500 mb-1">P: 페르소나 (역할)</label>
+                                <input type="text" id="in-persona" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow" placeholder="예: 10년차 전문 에디터">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-stone-500 mb-1">C: 맥락 (배경)</label>
+                                <input type="text" id="in-context" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow" placeholder="예: 신입사원 대상 교육 자료">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-stone-500 mb-1">T: 태스크 (지시문)</label>
+                            <textarea id="in-task" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow h-20" placeholder="예: 아래 회의록 원문을 바탕으로 핵심 의사결정 사항을 요약하라."></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-500 mb-1">O: 출력물 목표</label>
+                                <input type="text" id="in-output" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow" placeholder="예: 이메일 발송용 초안">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-stone-500 mb-1">F: 형식 (제약조건)</label>
+                                <input type="text" id="in-format" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow" placeholder="예: 마크다운 리스트, 300자 이내">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-stone-500 mb-1">E: 예시 (Few-shot)</label>
+                            <textarea id="in-example" class="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow h-16" placeholder="예: [입력] 어제 회식함 -> [출력] 어제 팀 회식을 진행하였습니다."></textarea>
+                        </div>
+
+                        <div class="flex items-center space-x-2 pt-2 bg-white p-3 rounded-lg border border-stone-200">
+                            <input type="checkbox" id="in-ask" class="h-4 w-4 rounded border-stone-300 text-teal-600 focus:ring-teal-500 cursor-pointer">
+                            <label for="in-ask" class="text-sm text-stone-600 cursor-pointer select-none">Ask-before-answer (답변 전 질문하기) 포함</label>
+                        </div>
+
+                        <button onclick="generatePrompt()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:transform active:scale-95 flex justify-center items-center">
+                            <i class="fas fa-wand-magic-sparkles mr-2"></i> 프롬프트 생성하기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Area -->
+                <div class="w-full lg:w-1/2 flex flex-col bg-stone-900">
+                    <div class="bg-stone-800 p-3 border-b border-stone-700 flex justify-between items-center">
+                        <span class="text-xs font-mono text-stone-400"><i class="fas fa-code mr-1"></i> generated_prompt.md</span>
+                        <button onclick="copyPrompt()" class="text-xs bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1 rounded transition-colors border border-stone-600">
+                            <i class="far fa-copy mr-1"></i> 복사
+                        </button>
+                    </div>
+                    <textarea id="out-result" readonly class="w-full flex-grow bg-stone-900 text-teal-100 font-mono text-sm p-6 focus:outline-none resize-none leading-relaxed border-none" placeholder="왼쪽 내용을 입력하고 생성 버튼을 누르세요."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 3: Practice Scenarios -->
+        <section id="practice" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 3</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">실무 문서 자동화 실습</h2>
+                <p class="text-stone-500 mt-2">멘토의 경험(입력)과 멘티의 기술(프롬프트)을 결합해보세요.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <!-- Mentee Role -->
+                    <div class="p-8 border-b md:border-b-0 md:border-r border-stone-100">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-teal-100 text-teal-700 px-2 py-1 rounded text-xs font-bold mr-2">멘티 (기술)</span>
+                            <h3 class="font-bold text-lg text-stone-800">문서 변환 시뮬레이터</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">
+                            아래 거칠게 작성된 텍스트(Draft)를 입력하고, 위에서 만든 프롬프트를 적용했을 때 어떻게 변하는지 확인하세요.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-500 mb-1">입력 텍스트 (Raw Data)</label>
+                                <textarea id="sim-input" class="w-full bg-stone-50 border border-stone-300 rounded-lg p-3 text-sm h-32 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none" placeholder="예: 오늘 회의해서 결정된거 A안으로 가기로 했고, 예산은 500만원까지만 쓰래. 다음주 월요일까지 보고서 써야됨."></textarea>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="simulateAI('email')" class="flex-1 bg-stone-800 hover:bg-stone-700 text-white py-2 px-4 rounded-lg text-sm transition-colors shadow-sm">
+                                    <i class="fas fa-envelope mr-1"></i> 이메일 변환
+                                </button>
+                                <button onclick="simulateAI('report')" class="flex-1 bg-white border border-stone-300 hover:bg-stone-50 hover:border-teal-500 hover:text-teal-600 text-stone-700 py-2 px-4 rounded-lg text-sm transition-colors shadow-sm">
+                                    <i class="fas fa-file-alt mr-1"></i> 보고서 요약
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor Role -->
+                    <div class="p-8 bg-stone-50">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-stone-200 text-stone-700 px-2 py-1 rounded text-xs font-bold mr-2">멘토 (피드백)</span>
+                            <h3 class="font-bold text-lg text-stone-800">AI 결과물 (Simulation)</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">
+                            변환된 결과를 검토하고, 어떤 부분이 부족한지 멘티에게 피드백해주세요. (Meta Prompting 유도)
+                        </p>
+                        <div id="sim-output" class="bg-white border border-stone-200 rounded-lg p-5 text-sm text-stone-700 h-64 overflow-y-auto font-mono whitespace-pre-wrap shadow-inner leading-relaxed">
+                            [대기 중] 왼쪽에서 변환 버튼을 눌러주세요.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meta Prompt Tip (Styled for Week 1) -->
+            <div class="mt-6 bg-yellow-50 border border-yellow-100 rounded-xl p-5 flex items-start shadow-sm">
+                <div class="bg-yellow-100 p-2 rounded-full mr-4 text-yellow-600">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-yellow-800 text-sm">💡 Meta Prompting (프롬프트 고도화)</h4>
+                    <p class="text-sm text-yellow-700 mt-1">
+                        결과가 마음에 들지 않나요? AI에게 프롬프트 수정을 요청해보세요.<br>
+                        <em>"방금 결과물은 너무 딱딱해. 조금 더 정중한 톤으로 수정하고, 핵심 내용은 볼드체로 강조하도록 **프롬프트 자체를 수정해줘**."</em>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-400 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-white text-lg font-bold mb-4">2주차 교육 완료</h2>
+            <p class="mb-6 max-w-2xl mx-auto text-sm">
+                이제 TOPFEC 구조를 활용해 AI를 정교하게 제어할 수 있습니다.<br>
+                팀원들과 함께 만든 '자동화 프롬프트'를 실제 업무에 적용해보세요.
+            </p>
+            <div class="flex justify-center space-x-4 mb-8">
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">Task</span>
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">Persona</span>
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">Output</span>
+            </div>
+            <p class="text-xs text-stone-600">Designed for Internal AI Training Program</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. TOPFEC Generator Logic
+        function generatePrompt() {
+            const persona = document.getElementById('in-persona').value || "전문가";
+            const context = document.getElementById('in-context').value || "일반적인 업무 상황";
+            const task = document.getElementById('in-task').value || "주어진 내용을 처리하라.";
+            const output = document.getElementById('in-output').value || "텍스트";
+            const format = document.getElementById('in-format').value || "자유 형식";
+            const example = document.getElementById('in-example').value;
+            const ask = document.getElementById('in-ask').checked;
+
+            let prompt = `### 1. Persona (역할 정의)
+당신은 **${persona}**입니다. 
+${context} 상황을 고려하여 답변을 작성해야 합니다.
+
+### 2. Task (수행 임무)
+다음 작업을 수행하십시오:
+${task}
+
+### 3. Output Format (출력 형식 및 제약조건)
+- **목표 결과물:** ${output}
+- **형식 제약:** ${format}
+- 반드시 명확하고 간결하게 작성할 것.`;
+
+            if (example) {
+                prompt += `
+
+### 4. Few-shot Example (작성 예시)
+${example}`;
+            }
+
+            if (ask) {
+                prompt += `
+
+### 5. Ask Before Answer
+작업을 시작하기 전에, 더 완벽한 결과를 위해 필요한 추가 정보가 있다면 **반드시 나에게 먼저 질문해 주십시오.** 질문이 없다면 바로 작업을 시작해도 좋습니다.`;
+            }
+
+            prompt += `
+
+### 6. Input Data
+(여기에 처리할 데이터를 입력하세요)`;
+
+            // Button Animation
+            const btn = document.querySelector('button[onclick="generatePrompt()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check mr-2"></i> 생성 완료!';
+            setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+
+            document.getElementById('out-result').value = prompt;
+        }
+
+        function copyPrompt() {
+            const copyText = document.getElementById("out-result");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(copyText.value);
+            
+            // Copy Button Feedback
+            const btn = document.querySelector('button[onclick="copyPrompt()"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 완료';
+            btn.classList.add('text-teal-400');
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('text-teal-400');
+            }, 1500);
+        }
+
+        // 2. Simulation Logic
+        function simulateAI(type) {
+            const input = document.getElementById('sim-input').value;
+            const outputDiv = document.getElementById('sim-output');
+            
+            if (!input) {
+                alert("입력 텍스트를 작성해주세요.");
+                return;
+            }
+
+            outputDiv.innerHTML = '<span class="text-teal-600 animate-pulse"><i class="fas fa-spinner fa-spin mr-2"></i>AI가 TOPFEC 구조로 분석 중입니다...</span>';
+
+            setTimeout(() => {
+                let result = "";
+                if (type === 'email') {
+                    result = `제목: [회의 결과 공유] 금일 결정된 A안 추진 및 예산 관련 보고
+
+팀장님, 안녕하십니까.
+
+금일 진행된 회의 결과를 아래와 같이 정리하여 보고드립니다.
+
+1. **주요 의사결정 사항**
+   - 프로젝트 방향성: **A안**으로 최종 확정하여 추진하기로 하였습니다.
+
+2. **예산 가이드라인**
+   - 배정 예산: 최대 **500만 원** 이내로 집행
+
+3. **향후 일정**
+   - 차주 월요일까지 상세 보고서를 작성하여 보고드릴 예정입니다.
+
+추가적인 지시 사항이 있으시면 말씀 부탁드립니다.
+
+감사합니다.`;
+                } else {
+                    result = `### 📄 핵심 요약 보고서
+
+| 구분 | 주요 내용 | 비고 |
+| :--- | :--- | :--- |
+| **결정 사항** | A안 채택 | 만장일치 |
+| **제약 조건** | 예산 상한선 500만 원 | 초과 불가 |
+| **Action Item** | 상세 보고서 작성 | 기한: 다음주 월요일 |
+
+**[분석 의견]**
+예산이 500만 원으로 제한적이므로, A안 추진 시 비용 효율적인 실행 방안 모색이 필요함.`;
+                }
+                outputDiv.innerText = result;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
