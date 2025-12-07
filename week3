@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3주차: 데이터 활용 및 자동화 학습</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Code block styling */
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Teal Accents (Matches Week 1 & 2) -->
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-teal-100 selection:text-teal-800">
+
+    <!-- Navigation (Consistent Design) -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-database text-teal-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-stone-700">GenAI Data Hub</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#concept" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">데이터 구조화</a>
+                    <a href="#converter" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">실습: 데이터 변환기</a>
+                    <a href="#automation" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">업무 자동화</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white pb-10 pt-10 border-b border-stone-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-4 inline-block">Week 3</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-stone-800 mb-6">
+                데이터 활용 및 <span class="text-teal-600">업무 자동화</span>
+            </h1>
+            <p class="text-lg text-stone-500 mb-8 max-w-2xl mx-auto">
+                복잡한 줄글(Unstructured)을 정형 데이터(Structured)로 변환하고,<br>
+                반복되는 업무 흐름을 AI로 자동화하는 방법을 마스터합니다.
+            </p>
+            <a href="#converter" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none transition-all transform hover:-translate-y-1">
+                <i class="fas fa-magic mr-2"></i> 데이터 변환 실습 시작
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- Section 1: Concept Visualization -->
+        <section id="concept" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 1</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">비정형 데이터 vs 정형 데이터</h2>
+                <p class="text-stone-500 mt-2">AI는 흩어진 텍스트 속에서 의미 있는 '개체(Entity)'를 찾아낼 수 있습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                <!-- Unstructured -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 h-full flex flex-col items-center text-center group hover:border-teal-200 transition-all">
+                    <div class="bg-stone-100 p-4 rounded-full mb-4 group-hover:bg-stone-200">
+                        <i class="fas fa-align-left text-stone-500 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-stone-700 mb-2">비정형 (Unstructured)</h3>
+                    <p class="text-sm text-stone-500 bg-stone-50 p-3 rounded w-full">
+                        "오늘 김철수 팀장이랑 점심 먹었고 5만원 썼어. 법인카드 사용함."
+                    </p>
+                    <p class="text-xs text-stone-400 mt-2">사람은 이해하기 쉽지만<br>컴퓨터는 계산할 수 없음</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="flex justify-center text-teal-500 text-4xl animate-pulse">
+                    <i class="fas fa-arrow-right md:rotate-0 rotate-90"></i>
+                </div>
+
+                <!-- Structured -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 h-full flex flex-col items-center text-center group hover:border-teal-200 transition-all">
+                    <div class="bg-teal-50 p-4 rounded-full mb-4 group-hover:bg-teal-100">
+                        <i class="fas fa-table text-teal-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-stone-700 mb-2">정형 (Structured)</h3>
+                    <div class="w-full text-sm text-stone-600 bg-teal-50 p-3 rounded text-left font-mono">
+                        {<br>
+                        &nbsp;&nbsp;"name": "김철수",<br>
+                        &nbsp;&nbsp;"amount": 50000,<br>
+                        &nbsp;&nbsp;"method": "Card"<br>
+                        }
+                    </div>
+                    <p class="text-xs text-stone-400 mt-2">Excel, DB 저장 가능<br>통계 및 자동화 가능</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 2: Data Converter Simulator (Lab) -->
+        <section id="converter" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 2</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">AI 데이터 변환기 실습</h2>
+                <p class="text-stone-500 mt-2">지저분한 텍스트를 원하는 포맷(JSON, CSV, Table)으로 변환해 보세요.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-stone-200 shadow-lg overflow-hidden flex flex-col lg:flex-row min-h-[500px]">
+                
+                <!-- Input Panel -->
+                <div class="w-full lg:w-1/2 p-6 bg-stone-50 border-b lg:border-b-0 lg:border-r border-stone-200 flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-stone-700 flex items-center">
+                            <span class="bg-stone-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
+                            입력 데이터 (비정형)
+                        </h3>
+                        <button onclick="loadSampleData()" class="text-xs text-teal-600 hover:text-teal-800 underline font-medium">
+                            <i class="fas fa-sync-alt mr-1"></i>샘플 불러오기
+                        </button>
+                    </div>
+                    <textarea id="raw-input" class="flex-grow w-full bg-white border border-stone-300 rounded-lg p-4 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-shadow font-mono" placeholder="여기에 변환할 텍스트를 입력하세요.&#13;&#10;예: 5/1일 서울지점 미팅 식대 3만원, 5/2일 부산 출장비 15만원..."></textarea>
+                    
+                    <div class="mt-4 p-4 bg-white rounded-lg border border-stone-200">
+                        <label class="block text-xs font-bold text-stone-500 mb-2 uppercase">변환 옵션 (Prompt Engineering)</label>
+                        <div class="flex gap-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="format" value="json" checked class="text-teal-600 focus:ring-teal-500">
+                                <span class="ml-2 text-sm text-stone-700 font-medium">JSON (시스템 연동용)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="format" value="csv" class="text-teal-600 focus:ring-teal-500">
+                                <span class="ml-2 text-sm text-stone-700 font-medium">CSV (엑셀용)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="format" value="table" class="text-teal-600 focus:ring-teal-500">
+                                <span class="ml-2 text-sm text-stone-700 font-medium">표 (보고서용)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="transformData()" class="mt-4 w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:transform active:scale-95 flex justify-center items-center">
+                        <i class="fas fa-random mr-2"></i> 구조화 데이터 추출하기
+                    </button>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="w-full lg:w-1/2 flex flex-col bg-stone-900 relative">
+                    <div class="bg-stone-800 p-3 border-b border-stone-700 flex justify-between items-center">
+                        <span class="text-xs font-mono text-stone-400"><i class="fas fa-code mr-1"></i> Result Output</span>
+                        <div class="flex gap-2">
+                             <span id="status-badge" class="hidden px-2 py-0.5 rounded text-[10px] bg-green-900 text-green-300 border border-green-700">Schema Validated</span>
+                            <button onclick="copyResult()" class="text-xs bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1 rounded transition-colors border border-stone-600">
+                                <i class="far fa-copy mr-1"></i> 복사
+                            </button>
+                        </div>
+                    </div>
+                    <div id="output-area" class="w-full flex-grow bg-stone-900 text-teal-100 font-mono text-sm p-6 overflow-auto whitespace-pre">
+                        <!-- Result will appear here -->
+                        <div class="h-full flex items-center justify-center text-stone-600">
+                            <p class="text-center"><i class="fas fa-arrow-left mr-2"></i>데이터를 입력하고 변환 버튼을 누르세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 3: Automation Workflow Builder -->
+        <section id="automation" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 3</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">업무 자동화 프롬프트 설계</h2>
+                <p class="text-stone-500 mt-2">"무엇이 발생하면(Trigger), 무엇을 처리해서(Action), 어디에 저장할까?"</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <!-- Step 1: Trigger -->
+                <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm relative">
+                    <div class="absolute -top-3 left-4 bg-teal-600 text-white text-xs font-bold px-2 py-1 rounded">STEP 1</div>
+                    <h3 class="font-bold text-stone-700 mt-2 mb-3">Trigger (입력)</h3>
+                    <select id="auto-trigger" class="w-full bg-stone-50 border border-stone-300 rounded p-2 text-sm focus:ring-teal-500">
+                        <option value="email">📩 고객 이메일 수신 시</option>
+                        <option value="meeting">📝 회의록 텍스트 입력 시</option>
+                        <option value="sales">💰 매일 매출 데이터 발생 시</option>
+                    </select>
+                </div>
+
+                <!-- Step 2: AI Processing -->
+                <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm relative">
+                    <div class="absolute -top-3 left-4 bg-stone-600 text-white text-xs font-bold px-2 py-1 rounded">STEP 2</div>
+                    <h3 class="font-bold text-stone-700 mt-2 mb-3">AI Processing (처리)</h3>
+                    <select id="auto-process" class="w-full bg-stone-50 border border-stone-300 rounded p-2 text-sm focus:ring-teal-500">
+                        <option value="extract">🔍 핵심 정보(날짜, 금액) 추출</option>
+                        <option value="summary">📑 3줄 요약 및 할 일 도출</option>
+                        <option value="sentiment">😊😡 감정 분석 및 분류</option>
+                    </select>
+                </div>
+
+                <!-- Step 3: Action -->
+                <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm relative">
+                    <div class="absolute -top-3 left-4 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">STEP 3</div>
+                    <h3 class="font-bold text-stone-700 mt-2 mb-3">Action (출력)</h3>
+                    <select id="auto-action" class="w-full bg-stone-50 border border-stone-300 rounded p-2 text-sm focus:ring-teal-500">
+                        <option value="excel">📊 엑셀/구글 시트에 행 추가</option>
+                        <option value="notion">📓 노션 데이터베이스에 저장</option>
+                        <option value="reply">📧 답장 이메일 초안 작성</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center mb-8">
+                <button onclick="generateAutoPrompt()" class="bg-stone-800 hover:bg-stone-900 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform active:scale-95">
+                    <i class="fas fa-cogs mr-2"></i> 자동화 프롬프트 생성
+                </button>
+            </div>
+
+            <!-- Generated Automation Prompt -->
+            <div id="auto-result-container" class="hidden bg-stone-100 p-6 rounded-2xl border border-stone-200">
+                <h4 class="font-bold text-stone-700 mb-2"><i class="fas fa-robot mr-2"></i>생성된 자동화 프롬프트 (System Prompt)</h4>
+                <p class="text-xs text-stone-500 mb-4">이 프롬프트를 Zapier, GPTs, 또는 사내 API 연동 시 'System Prompt'로 사용하세요.</p>
+                <div class="bg-white p-4 rounded-xl border border-stone-300 font-mono text-sm text-stone-600 whitespace-pre-wrap" id="auto-prompt-output">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-400 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-white text-lg font-bold mb-4">3주차 교육 완료</h2>
+            <p class="mb-6 max-w-2xl mx-auto text-sm">
+                이제 비정형 데이터를 정형 데이터로 변환하고,<br>
+                반복 업무를 자동화하는 시스템적 사고(System Thinking)를 갖추게 되었습니다.
+            </p>
+            <div class="flex justify-center space-x-4 mb-8">
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">Entity Extraction</span>
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">JSON Schema</span>
+                <span class="px-3 py-1 bg-stone-700 rounded-full text-xs">Automation Flow</span>
+            </div>
+            <p class="text-xs text-stone-600">Designed for Internal AI Training Program</p>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // 1. Data Converter Logic
+        function loadSampleData() {
+            const sampleText = `2024년 5월 1일, 서울 종로점에서 팀 점심회식 진행함. 김철수 부장 외 3명 참석했고 총 54,000원 법인카드 결제.
+5/2일 부산 출장 KTX 비용 118,000원 발생 (이영희 대리).
+5월 3일 사무용품(A4용지 외) 구매로 25,000원 지출.`;
+            document.getElementById('raw-input').value = sampleText;
+        }
+
+        function transformData() {
+            const input = document.getElementById('raw-input').value;
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const outputArea = document.getElementById('output-area');
+            const badge = document.getElementById('status-badge');
+
+            if (!input) {
+                alert("데이터를 입력해주세요.");
+                return;
+            }
+
+            outputArea.innerHTML = '<span class="text-teal-400 animate-pulse"><i class="fas fa-spinner fa-spin mr-2"></i>데이터 구조화 및 유효성 검사 중...</span>';
+            badge.classList.add('hidden');
+
+            setTimeout(() => {
+                // Simulated Mock Data based on input sample
+                let result = "";
+                
+                if (format === 'json') {
+                    result = `[
+  {
+    "date": "2024-05-01",
+    "category": "회식비",
+    "amount": 54000,
+    "description": "서울 종로점 팀 점심회식 (김철수 부장 외 3명)",
+    "payment_method": "Corporate Card"
+  },
+  {
+    "date": "2024-05-02",
+    "category": "출장비",
+    "amount": 118000,
+    "description": "부산 출장 KTX 비용 (이영희 대리)",
+    "payment_method": "Unspecified"
+  },
+  {
+    "date": "2024-05-03",
+    "category": "비품비",
+    "amount": 25000,
+    "description": "사무용품 구매 (A4용지 외)",
+    "payment_method": "Unspecified"
+  }
+]`;
+                    badge.classList.remove('hidden'); // Show validated badge for JSON
+                } else if (format === 'csv') {
+                    result = `date,category,amount,description,payment_method
+2024-05-01,회식비,54000,"서울 종로점 팀 점심회식",Card
+2024-05-02,출장비,118000,"부산 출장 KTX",-
+2024-05-03,비품비,25000,"사무용품 구매",-`;
+                } else {
+                    result = `| 날짜 | 구분 | 금액 | 내용 | 비고 |
+| :--- | :--- | :--- | :--- | :--- |
+| 2024-05-01 | 회식비 | 54,000 | 서울 종로점 팀 점심 | 김철수 외 3명 |
+| 2024-05-02 | 출장비 | 118,000 | 부산 KTX 비용 | 이영희 대리 |
+| 2024-05-03 | 비품비 | 25,000 | 사무용품 구매 | A4용지 외 |`;
+                }
+
+                outputArea.innerText = result;
+            }, 1000);
+        }
+
+        function copyResult() {
+            const outputArea = document.getElementById('output-area');
+            if(outputArea.innerText.trim() === "") return;
+            
+            navigator.clipboard.writeText(outputArea.innerText);
+            
+            // UI Feedback
+            const btn = document.querySelector('button[onclick="copyResult()"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 완료';
+            btn.classList.add('text-teal-400');
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('text-teal-400');
+            }, 1500);
+        }
+
+        // 2. Automation Prompt Logic
+        function generateAutoPrompt() {
+            const trigger = document.getElementById('auto-trigger').options[document.getElementById('auto-trigger').selectedIndex].text;
+            const process = document.getElementById('auto-process').options[document.getElementById('auto-process').selectedIndex].text;
+            const action = document.getElementById('auto-action').options[document.getElementById('auto-action').selectedIndex].text;
+
+            const prompt = `### Role
+당신은 기업 업무 자동화 전문가 AI입니다.
+
+### Goal
+사용자의 **[${trigger}]** 상황을 감지하여,
+**[${process}]** 작업을 수행한 뒤,
+최종적으로 **[${action}]** 하는 과정을 자동화해야 합니다.
+
+### Workflow Steps
+1. **Trigger Check**: 입력 데이터가 유효한지 검증하십시오. (누락 데이터 확인)
+2. **Processing**: 
+   - 텍스트에서 핵심 엔티티(Entity)를 추출하십시오.
+   - 데이터의 형식을 표준화(Normalization) 하십시오.
+3. **Action Output**: 
+   - 다음 시스템으로 전달하기 위해 JSON 또는 지정된 포맷으로 결과를 출력하십시오.
+   - 오류 발생 시 사람이 개입할 수 있도록 Error Flag를 띄우십시오.
+
+### Constraint
+- 개인정보(PII)가 포함된 경우 마스킹 처리할 것.
+- 모든 날짜 형식은 'YYYY-MM-DD'로 통일할 것.`;
+
+            document.getElementById('auto-prompt-output').innerText = prompt;
+            document.getElementById('auto-result-container').classList.remove('hidden');
+            document.getElementById('auto-result-container').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
