@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4주차: 해커톤 프로젝트 & AI 안전성</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Teal Accents (Matches Week 1-3) -->
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-teal-100 selection:text-teal-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-flag-checkered text-teal-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-stone-700">GenAI Final Hub</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#safety" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">AI 안전성(Safety)</a>
+                    <a href="#project" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">프로젝트 캔버스</a>
+                    <a href="#hackathon" class="text-stone-500 hover:text-teal-600 transition-colors font-medium">해커톤 가이드</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white pb-10 pt-10 border-b border-stone-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-4 inline-block">Week 4</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-stone-800 mb-6">
+                종합 프로젝트 및 <span class="text-teal-600">안전한 AI 활용</span>
+            </h1>
+            <p class="text-lg text-stone-500 mb-8 max-w-2xl mx-auto">
+                AI의 거짓말(Hallucination)과 아첨을 방지하는 검증 기술을 익히고,<br>
+                지금까지 배운 기술을 총동원하여 <strong>실무 해결 프로젝트</strong>를 설계합니다.
+            </p>
+            <a href="#project" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none transition-all transform hover:-translate-y-1">
+                <i class="fas fa-rocket mr-2"></i> 프로젝트 시작하기
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- Section 1: AI Safety & Limitations -->
+        <section id="safety" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 1</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">AI의 한계와 검증 전략</h2>
+                <p class="text-stone-500 mt-2">AI를 100% 믿지 마세요. 위험 요소를 파악하고 제어해야 합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Hallucination Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-50 p-3 rounded-full text-red-500 mr-3">
+                            <i class="fas fa-mask"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-800">할루시네이션 (Hallucination)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600 mb-4">
+                        사실이 아닌 정보를 그럴듯하게 꾸며내는 현상입니다. 없는 판례, 가짜 논문 등을 주의해야 합니다.
+                    </p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                        <h4 class="text-xs font-bold text-stone-500 uppercase mb-2">🛡️ 방어 전략 (Fact-Check Prompt)</h4>
+                        <ul class="text-sm text-stone-700 space-y-2">
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i>"답변의 출처(URL)를 반드시 명시해줘."</li>
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i>"확실하지 않은 정보는 '모른다'고 답해줘."</li>
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i><strong>Cross-Check:</strong> 구글/Perplexity 등 검색 도구 병행 사용</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sycophancy Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-50 p-3 rounded-full text-orange-500 mr-3">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-800">아첨 현상 (Sycophancy)</h3>
+                    </div>
+                    <p class="text-sm text-stone-600 mb-4">
+                        AI가 사용자의 의견에 무조건 동조하려는 성향입니다. 잘못된 전제를 입력하면 AI도 맞장구칩니다.
+                    </p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                        <h4 class="text-xs font-bold text-stone-500 uppercase mb-2">🛡️ 방어 전략 (Objective Prompt)</h4>
+                        <ul class="text-sm text-stone-700 space-y-2">
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i>"내 의견에 동의하지 말고 객관적으로 비판해줘."</li>
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i>"이 주장의 반대 입장에서 논리를 펼쳐봐."</li>
+                            <li><i class="fas fa-check text-teal-500 mr-2"></i><strong>중립적 질문:</strong> 유도신문("A가 맞지?") 금지</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 2: Mini Project Canvas (Interactive) -->
+        <section id="project" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Chapter 2</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">미니 프로젝트 기획 캔버스</h2>
+                <p class="text-stone-500 mt-2">멘토의 '문제'와 멘티의 '기술'을 결합하여 실무 해결책을 설계하세요.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-stone-200 shadow-lg overflow-hidden flex flex-col lg:flex-row">
+                
+                <!-- Input Form -->
+                <div class="w-full lg:w-1/2 p-8 bg-stone-50 border-b lg:border-b-0 lg:border-r border-stone-200">
+                    <div class="mb-6 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-stone-700"><i class="fas fa-pencil-alt mr-2 text-teal-600"></i>프로젝트 설계</h3>
+                        <span class="text-xs bg-white border border-stone-200 px-2 py-1 rounded text-stone-500">Auto-Save Disabled</span>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div>
+                            <label class="block text-sm font-bold text-stone-700 mb-1">1. 문제 정의 (Pain Point)</label>
+                            <p class="text-xs text-stone-500 mb-2">멘토가 겪는 반복적이고 비효율적인 업무는 무엇인가요?</p>
+                            <input type="text" id="p-problem" class="w-full border border-stone-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="예: 매주 고객 VOC를 수동으로 분류하는데 시간이 너무 걸림">
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div>
+                            <label class="block text-sm font-bold text-stone-700 mb-1">2. 데이터 소스 (Input Data)</label>
+                            <p class="text-xs text-stone-500 mb-2">해결을 위해 어떤 데이터를 AI에게 입력해야 하나요?</p>
+                            <input type="text" id="p-data" class="w-full border border-stone-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="예: 엑셀로 된 지난 1년치 고객 문의 내역, 상담 스크립트">
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div>
+                            <label class="block text-sm font-bold text-stone-700 mb-1">3. 해결 솔루션 (AI Automation)</label>
+                            <p class="text-xs text-stone-500 mb-2">어떤 프롬프트/자동화 기술을 적용할 것인가요?</p>
+                            <textarea id="p-solution" class="w-full border border-stone-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none h-20" placeholder="예: TOPFEC 프롬프트로 감정 분석 및 카테고리 자동 태깅 후 엑셀로 변환"></textarea>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div>
+                            <label class="block text-sm font-bold text-stone-700 mb-1">4. 기대 효과 (Output)</label>
+                            <input type="text" id="p-effect" class="w-full border border-stone-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="예: 분류 시간 3시간 -> 10분 단축, 핵심 불만 사항 조기 발견">
+                        </div>
+
+                        <button onclick="generatePlan()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md mt-4 flex justify-center items-center">
+                            <i class="fas fa-magic mr-2"></i> 프로젝트 기획안 생성
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Preview -->
+                <div class="w-full lg:w-1/2 flex flex-col bg-stone-900">
+                    <div class="bg-stone-800 p-3 border-b border-stone-700 flex justify-between items-center">
+                        <span class="text-xs font-mono text-stone-400"><i class="fas fa-file-alt mr-1"></i> Project_Plan.md</span>
+                        <button onclick="copyPlan()" class="text-xs bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1 rounded transition-colors border border-stone-600">
+                            <i class="far fa-copy mr-1"></i> 복사
+                        </button>
+                    </div>
+                    <textarea id="plan-output" readonly class="w-full flex-grow bg-stone-900 text-teal-50 font-mono text-sm p-6 focus:outline-none resize-none leading-relaxed border-none" placeholder="왼쪽 내용을 작성하면 기획안이 자동으로 정리됩니다."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <!-- Section 3: Hackathon Info -->
+        <section id="hackathon" class="scroll-mt-20">
+            <div class="bg-gradient-to-r from-stone-800 to-stone-700 rounded-2xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i class="fas fa-trophy text-[250px] -mr-10 -mt-10"></i>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded uppercase mr-3">Coming Soon</span>
+                        <h2 class="text-2xl md:text-3xl font-bold">GenAI 사내 해커톤 안내</h2>
+                    </div>
+                    
+                    <p class="text-stone-300 mb-8 max-w-2xl">
+                        4주간 배운 모든 내용을 총동원하여, 우리 팀의 진짜 문제를 해결하는 날입니다.<br>
+                        최우수 팀에게는 사내 시상 및 실제 솔루션 개발 기회가 주어집니다.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                            <h3 class="font-bold text-teal-400 mb-1"><i class="fas fa-users mr-2"></i>참가 대상</h3>
+                            <p class="text-sm text-stone-200">교육 수료 멘토-멘티 팀</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                            <h3 class="font-bold text-teal-400 mb-1"><i class="fas fa-clock mr-2"></i>일정</h3>
+                            <p class="text-sm text-stone-200">교육 종료 후 2주 뒤 (예정)</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                            <h3 class="font-bold text-teal-400 mb-1"><i class="fas fa-star mr-2"></i>심사 기준</h3>
+                            <p class="text-sm text-stone-200">실무 적용 가능성, 프롬프트 완성도</p>
+                        </div>
+                    </div>
+
+                    <button onclick="alert('해커톤 상세 일정은 추후 공지됩니다.')" class="bg-white text-stone-800 hover:bg-stone-100 font-bold py-3 px-6 rounded-lg transition-colors shadow-lg">
+                        상세 요강 보기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-400 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-white text-lg font-bold mb-4">4주차 교육 완료 (과정 종료)</h2>
+            <p class="mb-6 max-w-2xl mx-auto text-sm">
+                4주간의 긴 여정을 마치신 것을 축하드립니다.<br>
+                이제 여러분은 AI를 두려워하는 것이 아니라, <strong>주도적으로 활용하는 혁신가</strong>입니다.
+            </p>
+            <div class="flex justify-center space-x-4 mb-8">
+                <span class="px-3 py-1 bg-teal-900 text-teal-200 rounded-full text-xs border border-teal-700">Week 1: 기초</span>
+                <span class="px-3 py-1 bg-teal-900 text-teal-200 rounded-full text-xs border border-teal-700">Week 2: 심화</span>
+                <span class="px-3 py-1 bg-teal-900 text-teal-200 rounded-full text-xs border border-teal-700">Week 3: 자동화</span>
+                <span class="px-3 py-1 bg-teal-900 text-teal-200 rounded-full text-xs border border-teal-700">Week 4: 프로젝트</span>
+            </div>
+            <p class="text-xs text-stone-600">Designed for Internal AI Training Program</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function generatePlan() {
+            const problem = document.getElementById('p-problem').value || "(문제 정의 미입력)";
+            const data = document.getElementById('p-data').value || "(데이터 소스 미입력)";
+            const solution = document.getElementById('p-solution').value || "(솔루션 미입력)";
+            const effect = document.getElementById('p-effect').value || "(기대 효과 미입력)";
+
+            const plan = `# 🚀 GenAI 미니 프로젝트 기획안
+
+## 1. 프로젝트 개요
+- **팀명:** (팀명을 입력하세요)
+- **주제:** ${problem.substring(0, 20)}... 해결 프로젝트
+
+## 2. 문제 정의 (AS-IS)
+> **Pain Point:** > ${problem}
+
+## 3. 활용 데이터 및 기술 (Input & Tools)
+- **입력 데이터:** ${data}
+- **사용 기술:** - ChatGPT (TOPFEC 프롬프트)
+  - 데이터 전처리 및 자동화 스크립트
+  - ${solution}
+
+## 4. 해결 방안 (TO-BE)
+1. **데이터 수집:** ${data} 확보
+2. **AI 처리:** ${solution}
+3. **결과 검증:** 할루시네이션 체크 및 실무자 검토
+
+## 5. 기대 효과 (Impact)
+- ${effect}
+
+---
+*작성일: ${new Date().toLocaleDateString()} | 작성자: 멘토-멘티 팀*`;
+
+            // Animation
+            const output = document.getElementById('plan-output');
+            output.value = "기획안 생성 중...";
+            setTimeout(() => {
+                output.value = plan;
+            }, 600);
+        }
+
+        function copyPlan() {
+            const copyText = document.getElementById("plan-output");
+            if(copyText.value.trim() === "") return;
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(copyText.value);
+            
+            // UI Feedback
+            const btn = document.querySelector('button[onclick="copyPlan()"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 완료';
+            btn.classList.add('text-teal-400');
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('text-teal-400');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
