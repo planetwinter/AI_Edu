@@ -541,7 +541,7 @@
             }
         }
 
-        // --- 4. Markdown Playground Logic ---
+// --- 4. Markdown Playground Logic (수정된 부분) ---
         function addMarkdown(syntax) {
             const input = document.getElementById('md-input');
             const start = input.selectionStart;
@@ -559,21 +559,30 @@
             const input = document.getElementById('md-input').value;
             const preview = document.getElementById('md-preview');
             
-            // Simple Regex-based Markdown Parser for demo purposes
+            // Simple Regex-based Markdown Parser
             let html = input
                 .replace(/^# (.*$)/gim, '<h1 class="text-lg font-bold text-stone-800 border-b border-stone-200 pb-1 mb-2">$1</h1>') // H1
                 .replace(/\*\*(.*)\*\*/gim, '<strong class="text-teal-700">$1</strong>') // Bold
                 .replace(/^- (.*$)/gim, '<li class="ml-4 list-disc text-stone-600">$1</li>') // List
                 .replace(/\n/gim, '<br>') // Line break
-                .replace(/\|(.*)\|/gim, function(match) { // Simple Table Row detection
+                .replace(/\|(.*)\|/gim, function(match) { // Table Row detection
                     const cells = match.split('|').filter(c => c.trim() !== '');
-                    if (match.includes('---')) return ''; // Skip separator row for visual simplicity in demo
-                    return `<div class="grid grid-cols-${cells.length} gap-2 border-b border-stone-100 py-1">${cells.map(c => `<span class="px-1">${c}</span>`).join('')}</div>`;
+                    
+                    // 구분선(---)이 있는 행은 시각적 간소화를 위해 숨김 처리 (혹은 빈칸 반환)
+                    if (match.includes('---')) return ''; 
+                    
+                    // [수정 핵심] Tailwind CDN은 동적 클래스(grid-cols-${n})를 인식 못하므로 inline style 사용
+                    // grid-template-columns를 통해 셀 개수만큼 칸을 나눕니다.
+                    const gridStyle = `display: grid; grid-template-columns: repeat(${cells.length}, 1fr); gap: 0.5rem;`;
+                    
+                    return `<div style="${gridStyle}" class="border-b border-stone-200 py-1 mb-1">
+                        ${cells.map(c => `<span class="px-2 py-1 bg-stone-50 rounded text-stone-700 text-xs font-bold border border-stone-100 block text-center">${c.trim()}</span>`).join('')}
+                    </div>`;
                 });
 
             preview.innerHTML = html;
         }
-
     </script>
 </body>
+
 </html>
