@@ -191,7 +191,8 @@
                             <label for="in-ask" class="text-sm text-stone-600 cursor-pointer select-none">Ask-before-answer (답변 전 질문하기) 포함</label>
                         </div>
 
-                        <button onclick="generatePrompt()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:transform active:scale-95 flex justify-center items-center">
+                        <!-- Button with Explicit ID for Safety -->
+                        <button id="btn-generate" onclick="generatePrompt()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md active:transform active:scale-95 flex justify-center items-center">
                             <i class="fas fa-wand-magic-sparkles mr-2"></i> 프롬프트 생성하기
                         </button>
                     </div>
@@ -201,7 +202,8 @@
                 <div class="w-full lg:w-1/2 flex flex-col bg-stone-900">
                     <div class="bg-stone-800 p-3 border-b border-stone-700 flex justify-between items-center">
                         <span class="text-xs font-mono text-stone-400"><i class="fas fa-code mr-1"></i> generated_prompt.md</span>
-                        <button onclick="copyPrompt()" class="text-xs bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1 rounded transition-colors border border-stone-600">
+                        <!-- Button with Explicit ID -->
+                        <button id="btn-copy" onclick="copyPrompt()" class="text-xs bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1 rounded transition-colors border border-stone-600">
                             <i class="far fa-copy mr-1"></i> 복사
                         </button>
                     </div>
@@ -301,6 +303,7 @@
     <script>
         // 1. TOPFEC Generator Logic
         function generatePrompt() {
+            // Get values safely
             const persona = document.getElementById('in-persona').value || "전문가";
             const context = document.getElementById('in-context').value || "일반적인 업무 상황";
             const task = document.getElementById('in-task').value || "주어진 내용을 처리하라.";
@@ -309,6 +312,7 @@
             const example = document.getElementById('in-example').value;
             const ask = document.getElementById('in-ask').checked;
 
+            // Construct Prompt
             let prompt = `### 1. Persona (역할 정의)
 당신은 **${persona}**입니다. 
 ${context} 상황을 고려하여 답변을 작성해야 합니다.
@@ -341,30 +345,41 @@ ${example}`;
 ### 6. Input Data
 (여기에 처리할 데이터를 입력하세요)`;
 
-            // Button Animation
-            const btn = document.querySelector('button[onclick="generatePrompt()"]');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check mr-2"></i> 생성 완료!';
-            setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-
+            // CRITICAL FIX: Update the textarea FIRST to ensure data is visible even if animation fails
             document.getElementById('out-result').value = prompt;
+
+            // Button Animation (Safely selected by ID)
+            const btn = document.getElementById('btn-generate');
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i> 생성 완료!';
+                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+            }
         }
 
         function copyPrompt() {
             const copyText = document.getElementById("out-result");
             copyText.select();
             copyText.setSelectionRange(0, 99999); 
-            navigator.clipboard.writeText(copyText.value);
             
-            // Copy Button Feedback
-            const btn = document.querySelector('button[onclick="copyPrompt()"]');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> 완료';
-            btn.classList.add('text-teal-400');
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.classList.remove('text-teal-400');
-            }, 1500);
+            // Modern Clipboard API with fallback
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(copyText.value);
+            } else {
+                document.execCommand('copy'); // Fallback for older environments
+            }
+            
+            // Copy Button Feedback (Safely selected by ID)
+            const btn = document.getElementById('btn-copy');
+            if (btn) {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> 완료';
+                btn.classList.add('text-teal-400');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('text-teal-400');
+                }, 1500);
+            }
         }
 
         // 2. Simulation Logic
