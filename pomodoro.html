@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강의실 뽀모도로</title>
+    <style>
+        :root {
+            --work-color: #ff6b6b;
+            --break-color: #51cf66;
+            --long-break-color: #339af0;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 { margin-bottom: 0.5rem; font-size: 1.5rem; color: #555; }
+        
+        #status-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--work-color);
+        }
+
+        .timer-display {
+            font-size: 5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -2px;
+        }
+
+        .controls button {
+            font-size: 1.1rem;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: transform 0.1s, opacity 0.2s;
+            font-weight: 600;
+        }
+
+        .controls button:active { transform: scale(0.95); }
+
+        #start-btn { background-color: var(--work-color); color: white; }
+        #reset-btn { background-color: #e9ecef; color: #495057; }
+
+        .cycle-container {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #dee2e6;
+            transition: background-color 0.3s;
+        }
+
+        .dot.completed { background-color: var(--work-color); }
+        .dot.active { border: 2px solid var(--work-color); background-color: transparent; }
+
+        .task-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* 상태별 테마 클래스 */
+        body.work-mode { background-color: #ffe3e3; }
+        body.work-mode #start-btn { background-color: var(--work-color); }
+        body.work-mode #status-text { color: var(--work-color); }
+
+        body.break-mode { background-color: #d3f9d8; }
+        body.break-mode #start-btn { background-color: var(--break-color); }
+        body.break-mode #status-text { color: var(--break-color); }
+        
+        body.long-break-mode { background-color: #d0ebff; }
+        body.long-break-mode #start-btn { background-color: var(--long-break-color); }
+        body.long-break-mode #status-text { color: var(--long-break-color); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <input type="text" class="task-input" placeholder="현재 과목/목표 입력 (예: 상수도 공학)" id="task-name">
+        
+        <span id="status-text">집중 시간 (Focus)</span>
+        <div class="timer-display" id="timer">25:00</div>
+
+        <div class="controls">
+            <button id="start-btn" onclick="toggleTimer()">시작</button>
+            <button id="reset-btn" onclick="resetTimer()">리셋</button>
+        </div>
+
+        <div class="cycle-container" id="cycle-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #888;">
+            4세트 완료 시 15분 휴식 자동 전환
+        </p>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60; // 25분 (초 단위)
+        let timerId = null;
+        let isRunning = false;
+        let mode = 'work'; // 'work', 'break', 'long-break'
+        let cycleCount = 0; // 현재 완료한 사이클 수 (0~3)
+        
+        const WORK_TIME = 25 * 60;
+        const BREAK_TIME = 5 * 60;
+        const LONG_BREAK_TIME = 15 * 60;
+
+        const timerDisplay = document.getElementById('timer');
+        const startBtn = document.getElementById('start-btn');
+        const statusText = document.getElementById('status-text');
+        const body = document.body;
+        const dots = document.querySelectorAll('.dot');
+        const title = document.title;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerDisplay.textContent = timeString;
+            document.title = `(${timeString}) ${mode === 'work' ? '집중' : '휴식'} - 강의실 뽀모도로`;
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timerId);
+                startBtn.textContent = "계속";
+                isRunning = false;
+            } else {
+                startBtn.textContent = "일시정지";
+                isRunning = true;
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+
+                    if (timeLeft < 0) {
+                        clearInterval(timerId);
+                        completePhase();
+                    }
+                }, 1000);
+            }
+        }
+
+        function completePhase() {
+            isRunning = false;
+            startBtn.textContent = "다음 단계 시작";
+            
+            // 알림음 (강의실이므로 짧고 작게, 브라우저 정책상 사용자 인터랙션 필요할 수 있음)
+            // const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+            // audio.volume = 0.3;
+            // audio.play().catch(e => console.log('Audio play failed'));
+
+            if (mode === 'work') {
+                cycleCount++;
+                updateDots();
+
+                if (cycleCount >= 4) {
+                    switchMode('long-break');
+                    cycleCount = 0; // 사이클 초기화
+                } else {
+                    switchMode('break');
+                }
+            } else {
+                // 휴식이 끝나면 다시 집중 모드
+                if (mode === 'long-break') resetDots();
+                switchMode('work');
+            }
+        }
+
+        function switchMode(newMode) {
+            mode = newMode;
+            body.className = ''; // 기존 클래스 제거
+
+            if (mode === 'work') {
+                timeLeft = WORK_TIME;
+                statusText.textContent = "🔥 집중 시간 (Focus)";
+                body.classList.add('work-mode');
+            } else if (mode === 'break') {
+                timeLeft = BREAK_TIME;
+                statusText.textContent = "🍃 짧은 휴식 (Short Break)";
+                body.classList.add('break-mode');
+            } else if (mode === 'long-break') {
+                timeLeft = LONG_BREAK_TIME;
+                statusText.textContent = "☕ 긴 휴식 (Long Break)";
+                body.classList.add('long-break-mode');
+            }
+            updateDisplay();
+        }
+
+        function resetTimer() {
+            clearInterval(timerId);
+            isRunning = false;
+            startBtn.textContent = "시작";
+            cycleCount = 0;
+            resetDots();
+            switchMode('work');
+        }
+
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                if (index < cycleCount) {
+                    dot.className = 'dot completed';
+                } else if (index === cycleCount) {
+                    dot.className = 'dot active';
+                } else {
+                    dot.className = 'dot';
+                }
+            });
+        }
+
+        function resetDots() {
+            dots.forEach((dot, index) => {
+                dot.className = index === 0 ? 'dot active' : 'dot';
+            });
+        }
+
+        // 초기화
+        switchMode('work');
+    </script>
+</body>
+</html>
