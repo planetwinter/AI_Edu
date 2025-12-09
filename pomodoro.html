@@ -35,8 +35,6 @@
             max-width: 400px;
         }
 
-        h1 { margin-bottom: 0.5rem; font-size: 1.5rem; color: #555; }
-        
         #status-text {
             font-size: 1.2rem;
             font-weight: bold;
@@ -53,21 +51,30 @@
             letter-spacing: -2px;
         }
 
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .controls button {
-            font-size: 1.1rem;
-            padding: 12px 24px;
+            font-size: 1rem;
+            padding: 12px 20px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            margin: 0 5px;
             transition: transform 0.1s, opacity 0.2s;
             font-weight: 600;
+            color: white;
         }
 
         .controls button:active { transform: scale(0.95); }
 
-        #start-btn { background-color: var(--work-color); color: white; }
-        #reset-btn { background-color: #e9ecef; color: #495057; }
+        #start-btn { background-color: var(--work-color); flex: 2; }
+        /* 바로 휴식 버튼 스타일 추가 */
+        #instant-break-btn { background-color: var(--break-color); flex: 1; } 
+        #reset-btn { background-color: #e9ecef; color: #495057; flex: 1; }
 
         .cycle-container {
             margin-top: 2rem;
@@ -115,13 +122,14 @@
 <body>
 
     <div class="container">
-        <input type="text" class="task-input" placeholder="현재 과목/목표 입력 (예: 상수도 공학)" id="task-name">
+        <input type="text" class="task-input" placeholder="현재 과목/목표 입력" id="task-name">
         
         <span id="status-text">집중 시간 (Focus)</span>
         <div class="timer-display" id="timer">25:00</div>
 
         <div class="controls">
             <button id="start-btn" onclick="toggleTimer()">시작</button>
+            <button id="instant-break-btn" onclick="startInstantBreak()">☕ 바로 휴식</button>
             <button id="reset-btn" onclick="resetTimer()">리셋</button>
         </div>
 
@@ -138,11 +146,11 @@
     </div>
 
     <script>
-        let timeLeft = 25 * 60; // 25분 (초 단위)
+        let timeLeft = 25 * 60; 
         let timerId = null;
         let isRunning = false;
-        let mode = 'work'; // 'work', 'break', 'long-break'
-        let cycleCount = 0; // 현재 완료한 사이클 수 (0~3)
+        let mode = 'work'; 
+        let cycleCount = 0; 
         
         const WORK_TIME = 25 * 60;
         const BREAK_TIME = 5 * 60;
@@ -153,7 +161,6 @@
         const statusText = document.getElementById('status-text');
         const body = document.body;
         const dots = document.querySelectorAll('.dot');
-        const title = document.title;
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
@@ -183,27 +190,33 @@
             }
         }
 
+        // 바로 휴식 기능
+        function startInstantBreak() {
+            clearInterval(timerId); // 기존 타이머 중지
+            isRunning = false;
+            
+            // 모드 변경 (휴식)
+            switchMode('break');
+            
+            // 바로 타이머 시작
+            toggleTimer();
+        }
+
         function completePhase() {
             isRunning = false;
             startBtn.textContent = "다음 단계 시작";
             
-            // 알림음 (강의실이므로 짧고 작게, 브라우저 정책상 사용자 인터랙션 필요할 수 있음)
-            // const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-            // audio.volume = 0.3;
-            // audio.play().catch(e => console.log('Audio play failed'));
-
             if (mode === 'work') {
                 cycleCount++;
-                updateDots();
+                updateDots(); // 집중 시간을 다 채웠을 때만 도트 채움
 
                 if (cycleCount >= 4) {
                     switchMode('long-break');
-                    cycleCount = 0; // 사이클 초기화
+                    cycleCount = 0; 
                 } else {
                     switchMode('break');
                 }
             } else {
-                // 휴식이 끝나면 다시 집중 모드
                 if (mode === 'long-break') resetDots();
                 switchMode('work');
             }
@@ -211,7 +224,7 @@
 
         function switchMode(newMode) {
             mode = newMode;
-            body.className = ''; // 기존 클래스 제거
+            body.className = ''; 
 
             if (mode === 'work') {
                 timeLeft = WORK_TIME;
@@ -256,7 +269,6 @@
             });
         }
 
-        // 초기화
         switchMode('work');
     </script>
 </body>
